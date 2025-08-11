@@ -1,0 +1,27 @@
+# Dependências
+node_modules/
+
+# Build/Distribuição
+build/
+dist/
+
+# Arquivos de ambiente
+.env
+
+# Banco de dados
+*.db
+prisma/database/
+
+# Prisma gerado
+generated/
+
+# Logs
+*.log
+
+# Cache
+.cache/
+node_modules
+# Keep environment variables out of version control
+.env
+
+/src/generated/prisma
