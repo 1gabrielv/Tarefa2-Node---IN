@@ -1,14 +1,13 @@
 import { z } from "zod";
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { PrismaUsersRepository } from "../../../repositories/prisma/prisma_users_repositories.js";
-import { UpdateUserUseCase } from "../../../use-cases/users/update_user_use_case.js";
-import { UserNotFoundError } from "../../../use-cases/erros/UserNotFoundErro.js";
-import { UserAlreadyExistsError } from "../../../use-cases/erros/register_users.js";
+import { PrismaUsersRepository } from '../../../repositories/prisma/prisma_users_repositories.js';
+import { UpdateUserUseCase } from '../../../use-cases/users/update_user_use_case.js';
+import { UserNotFoundError } from '../../../use-cases/erros/UserNotFoundErro.js';
+import { UserAlreadyExistsError } from '../../../use-cases/erros/register_users.js';
+import { NotAllowedError } from '../../../use-cases/erros/not_allowed_error.js';
 
 export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
-    const paramsSchema = z.object({
-        id: z.string().uuid(),
-    });
+    const paramsSchema = z.object({ id: z.string().uuid() });
     const { id } = paramsSchema.parse(request.params);
 
     const bodySchema = z.object({
@@ -23,7 +22,11 @@ export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
         const usersRepository = new PrismaUsersRepository();
         const updateUserUseCase = new UpdateUserUseCase(usersRepository);
 
-        const updatedUser = await updateUserUseCase.execute({ userId: id, data });
+        const updatedUser = await updateUserUseCase.execute({
+            userIdToUpdate: id,
+            requestingUserId: request.user.sub,
+            data,
+        });
 
         return reply.status(200).send(updatedUser);
 
@@ -34,7 +37,9 @@ export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
         if (err instanceof UserAlreadyExistsError) {
             return reply.status(409).send({ message: err.message });
         }
-
+        if (err instanceof NotAllowedError) {
+            return reply.status(403).send({ message: err.message });
+        }
         throw err;
     }
 }

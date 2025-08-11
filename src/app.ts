@@ -1,5 +1,7 @@
 import fastify from "fastify";
-import { appRoutes } from "./http/routes.js";
+
+import { usersRoutes } from "./http/routes/users.js";
+import { postsRoutes } from "./http/routes/posts.js";
 
 
 export const app = fastify({});
@@ -8,4 +10,5 @@ app.get("/", (request, reply) => {
     return {message: "Hello, world!"};
 });
 
-app.register(appRoutes)
+app.register(usersRoutes);
+app.register(postsRoutes);

@@ -1,8 +1,8 @@
 import { z } from "zod";
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { PrismaPostsRepository } from "../../../repositories/prisma/prisma_posts_repositories.js";
-import { GetPostByIdUseCase } from "../../../use-cases/posts/get_post_by_id_use_case.js";
-import { PostNotFoundError } from "../../../use-cases/erros/post_not_found_error.js";
+import { PrismaPostsRepository } from "@/repositories/prisma/prisma_posts_repositories.js";
+import { GetPostByIdUseCase } from "@/use-cases/posts/get_post_by_id_use_case.js";
+import { PostNotFoundError } from "@/use-cases/erros/post_not_found_error.js";
 
 export async function getPostById(request: FastifyRequest, reply: FastifyReply) {
     const paramsSchema = z.object({ id: z.string().uuid() });
