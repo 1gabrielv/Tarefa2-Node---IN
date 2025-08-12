@@ -7,4 +7,7 @@ export interface LikesRepository {
   findUserLikeOnComment(userId: string, commentId: string): Promise<Like | null>
   findById(id: string): Promise<Like | null>
   delete(id: string): Promise<void>
+  findManyByUserId(userId: string): Promise<Like[]>
+  findManyByPostId(postId: string): Promise<Like[]>
+  findManyByCommentId(commentId: string): Promise<Like[]>
 }

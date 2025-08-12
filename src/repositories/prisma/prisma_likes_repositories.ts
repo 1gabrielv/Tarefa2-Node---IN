@@ -1,4 +1,4 @@
-import prisma from '../../lib/prisma.js';
+import prisma from '@/lib/prisma.js';
 import { Prisma, type Like } from '../../../generated/prisma/index.js';
 import type { LikesRepository } from '../likes_repositories.js';
 
@@ -34,5 +34,53 @@ export class PrismaLikesRepository implements LikesRepository {
     await prisma.like.delete({
       where: { id },
     })
+  }
+
+
+  async findManyByUserId(userId: string) {
+    const likes = await prisma.like.findMany({
+      where: {
+        usuarioId: userId,
+      },
+      include: {
+        post: true, 
+        comentario: true, 
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+    return likes
+  }
+
+  async findManyByPostId(postId: string) {
+    const likes = await prisma.like.findMany({
+      where: {
+        postId: postId,
+      },
+      include: {
+        usuario: true, 
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+    return likes
+  }
+
+  // -> ADICIONADO
+  async findManyByCommentId(commentId: string) {
+    const likes = await prisma.like.findMany({
+      where: {
+        comentarioId: commentId,
+      },
+      include: {
+        usuario: true, // Inclui o usuário que deu o like
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+    return likes
   }
 }

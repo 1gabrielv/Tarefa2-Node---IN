@@ -1,10 +1,10 @@
 import { z } from "zod";
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { PrismaUsersRepository } from '../../../repositories/prisma/prisma_users_repositories.js';
-import { UpdateUserUseCase } from '../../../use-cases/users/update_user_use_case.js';
-import { UserNotFoundError } from '../../../use-cases/erros/UserNotFoundErro.js';
-import { UserAlreadyExistsError } from '../../../use-cases/erros/register_users.js';
-import { NotAllowedError } from '../../../use-cases/erros/not_allowed_error.js';
+import { PrismaUsersRepository } from '@/repositories/prisma/prisma_users_repositories.js';
+import { UpdateUserUseCase } from '@/use-cases/users/update_user_use_case.js';
+import { UserNotFoundError } from '@/use-cases/erros/UserNotFoundErro.js';
+import { UserAlreadyExistsError } from '@/use-cases/erros/register_users.js';
+import { NotAllowedError } from '@/use-cases/erros/not_allowed_error.js';
 
 export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
     const paramsSchema = z.object({ id: z.string().uuid() });

@@ -1,6 +1,6 @@
 import { hash } from "bcryptjs";
 import type { Usuario } from "../../../generated/prisma/index.js";
-import type { UsersRepository, UserUpdateInput } from "../../repositories/users_repositories.js";
+import type { UsersRepository, UserUpdateInput } from "@/repositories/users_repositories.js";
 import { UserNotFoundError } from "../erros/UserNotFoundErro.js";
 import { UserAlreadyExistsError } from "../erros/register_users.js";
 import { NotAllowedError } from "../erros/not_allowed_error.js";

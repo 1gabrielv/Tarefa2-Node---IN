@@ -1,11 +1,11 @@
 import { z } from 'zod'
 import type { FastifyRequest, FastifyReply } from 'fastify'
-import { PrismaLikesRepository } from '../../../repositories/prisma/prisma_likes_repositories.js';
-import { PrismaPostsRepository } from '../../../repositories/prisma/prisma_posts_repositories.js';
-import { PrismaCommentsRepository } from '../../../repositories/prisma/prisma_comments_repositories.js';
-import { CreateLikeUseCase } from '../../../use-cases/likes/create_like_use_case.js';
-import { ResourceNotFound_Error } from '../../../use-cases/erros/resource_not_found_error.js';
-import { Already_Liked_Error } from '../../../use-cases/erros/already_liked_error.js';
+import { PrismaLikesRepository } from '@/repositories/prisma/prisma_likes_repositories.js';
+import { PrismaPostsRepository } from '@/repositories/prisma/prisma_posts_repositories.js';
+import { PrismaCommentsRepository } from '@/repositories/prisma/prisma_comments_repositories.js';
+import { CreateLikeUseCase } from '@/use-cases/likes/create_like_use_case.js';
+import { ResourceNotFound_Error } from '@/use-cases/erros/resource_not_found_error.js';
+import { Already_Liked_Error } from '@/use-cases/erros/already_liked_error.js';
 
 export async function createLike(request: FastifyRequest, reply: FastifyReply) {
   const bodySchema = z

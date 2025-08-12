@@ -1,7 +1,7 @@
 import type { Like } from '../../../generated/prisma/index.js';
-import type { LikesRepository } from '../../repositories/likes_repositories.js';
-import type { PostsRepository } from '../../repositories/post_repositories.js';
-import type { CommentsRepository } from '../../repositories/comments_repositories.js';
+import type { LikesRepository } from '@/repositories/likes_repositories.js';
+import type { PostsRepository } from '@/repositories/post_repositories.js';
+import type { CommentsRepository } from '@/repositories/comments_repositories.js';
 import { ResourceNotFound_Error } from '../erros/resource_not_found_error.js';
 import { Already_Liked_Error } from '../erros/already_liked_error.js';
 

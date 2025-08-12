@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import type { FastifyRequest, FastifyReply } from 'fastify';
-import { PrismaCommentsRepository } from '../../../repositories/prisma/prisma_comments_repositories.js';
-import { DeleteCommentUseCase } from '../../../use-cases/comments/delete_comment_use_case.js';
-import { ResourceNotFound_Error } from '../../../use-cases/erros/resource_not_found_error.js';
-import { NotAllowedError } from '../../../use-cases/erros/not_allowed_error.js';
+import { PrismaCommentsRepository } from '@/repositories/prisma/prisma_comments_repositories.js';
+import { DeleteCommentUseCase } from '@/use-cases/comments/delete_comment_use_case.js';
+import { ResourceNotFound_Error } from '@/use-cases/erros/resource_not_found_error.js';
+import { NotAllowedError } from '@/use-cases/erros/not_allowed_error.js';
 
 export async function deleteComment(request: FastifyRequest, reply: FastifyReply) {
   const paramsSchema = z.object({

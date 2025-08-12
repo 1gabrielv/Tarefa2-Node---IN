@@ -19,7 +19,6 @@ export async function usersRoutes(app: FastifyInstance) {
 
 
     // --- Rotas Autenticadas (*) ---
-    // A opção { onRequest: [verifyJwt] } aplica nossa verificação de token.
     app.put('/users/:id', { onRequest: [verifyJwt] }, updateUser);
     app.patch('/users/:id', { onRequest: [verifyJwt] }, updateUser);
     app.delete('/users/:id', { onRequest: [verifyJwt] }, deleteUser);
