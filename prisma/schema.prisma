@@ -32,7 +32,7 @@ model Post {
   id        String   @id @default(uuid())
   titulo    String
   conteudo  String
-  createdAt DateTime 
+  createdAt DateTime @default(now())
 
   usuario   Usuario      @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   usuarioId String       
