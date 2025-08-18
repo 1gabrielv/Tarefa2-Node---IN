@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { PrismaUsersRepository } from "@/repositories/prisma/prisma_users_repositories.js";

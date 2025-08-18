@@ -1,4 +1,3 @@
-// Caminho: src/http/controllers/user/authenticate.ts
 import { z } from 'zod';
 import type { FastifyRequest, FastifyReply } from 'fastify';
 import { PrismaUsersRepository } from '@/repositories/prisma/prisma_users_repositories.js';

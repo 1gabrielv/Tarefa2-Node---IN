@@ -1,5 +1,3 @@
-// Caminho: src/use-cases/posts/delete_post_use_case.ts
-
 import type { PostsRepository } from "@/repositories/post_repositories.js";
 import { PostNotFoundError } from "../erros/post_not_found_error.js";
 import { NotAllowedError } from "../erros/not_allowed_error.js";

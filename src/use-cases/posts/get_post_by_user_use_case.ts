@@ -1,4 +1,3 @@
-// Caminho: src/use-cases/post/get-posts-by-user-use-case.ts
 import type { Post } from "../../../generated/prisma/index.js";
 import type { PostsRepository } from "@/repositories/post_repositories.js";
 import type { UsersRepository } from "@/repositories/users_repositories.js";

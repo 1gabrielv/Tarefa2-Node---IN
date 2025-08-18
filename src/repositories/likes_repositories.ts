@@ -1,4 +1,3 @@
-// Caminho do arquivo: src/repositories/likes_repository.ts
 import { Prisma, type Like } from '../../generated/prisma/index.js';
 
 export interface LikesRepository {

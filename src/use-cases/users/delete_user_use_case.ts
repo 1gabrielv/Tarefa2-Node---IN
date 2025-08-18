@@ -1,4 +1,3 @@
-
 import type { UsersRepository } from "@/repositories/users_repositories.js";
 import { UserNotFoundError } from "../erros/UserNotFoundErro.js"; 
 import { NotAllowedError } from "../erros/not_allowed_error.js";   

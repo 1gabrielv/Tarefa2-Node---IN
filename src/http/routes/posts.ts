@@ -1,5 +1,3 @@
-// Caminho do arquivo: src/http/routes/posts.ts
-
 import type { FastifyInstance } from "fastify";
 
 import { verifyJwt } from "../middlewares/verify-jwt.js";
