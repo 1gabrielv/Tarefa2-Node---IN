@@ -1,9 +1,8 @@
 import { z } from "zod";
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { PrismaUsersRepository } from "@/repositories/prisma/prisma_users_repositories.js";
-import { DeleteUserUseCase } from "@/use-cases/users/delete_user_use_case.js";
 import { UserNotFoundError } from "@/use-cases/erros/UserNotFoundErro.js";
 import { NotAllowedError } from "@/use-cases/erros/not_allowed_error.js";  
+import { makeDeleteUserUseCase } from "@/use-cases/factiories users/make-delete-use-case.js";
 
 export async function deleteUser(request: FastifyRequest, reply: FastifyReply) {
     const paramsSchema = z.object({
@@ -13,8 +12,7 @@ export async function deleteUser(request: FastifyRequest, reply: FastifyReply) {
     const { id } = paramsSchema.parse(request.params);
 
     try {
-        const usersRepository = new PrismaUsersRepository();
-        const deleteUserUseCase = new DeleteUserUseCase(usersRepository);
+        const deleteUserUseCase = makeDeleteUserUseCase();
 
         await deleteUserUseCase.execute({
             userIdToDelete: id,

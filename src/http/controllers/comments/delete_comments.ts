@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import type { FastifyRequest, FastifyReply } from 'fastify';
-import { PrismaCommentsRepository } from '@/repositories/prisma/prisma_comments_repositories.js';
-import { DeleteCommentUseCase } from '@/use-cases/comments/delete_comment_use_case.js';
+import { makeDeleteCommentUseCase } from '@/use-cases/factiories comments/make-delete-use-case.js';
 import { ResourceNotFound_Error } from '@/use-cases/erros/resource_not_found_error.js';
 import { NotAllowedError } from '@/use-cases/erros/not_allowed_error.js';
 
@@ -14,10 +13,9 @@ export async function deleteComment(request: FastifyRequest, reply: FastifyReply
   const requestingUserId = request.user.sub;
 
   try {
-    const commentsRepository = new PrismaCommentsRepository();
-    const deleteCommentUseCase = new DeleteCommentUseCase(commentsRepository);
+    const commentsRepository = makeDeleteCommentUseCase()
 
-    await deleteCommentUseCase.execute({ commentId, requestingUserId });
+    await commentsRepository.execute({ commentId, requestingUserId });
 
     return reply.status(200).send({ message: 'Comentário deletado com sucesso.' });
   } catch (err) {

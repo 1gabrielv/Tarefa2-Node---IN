@@ -1,8 +1,7 @@
 import { z } from 'zod'
 import type { FastifyRequest, FastifyReply } from 'fastify'
-import { PrismaCommentsRepository } from '@/repositories/prisma/prisma_comments_repositories.js';
-import { GetCommentByIdUseCase } from '@/use-cases/comments/get_comments_by_id_use_case.js';
 import { ResourceNotFound_Error } from '@/use-cases/erros/resource_not_found_error.js';
+import { makeGetCommentByIdUseCase } from '@/use-cases/factiories comments/make-get-comments-by-id-use-case.js';
 
 export async function getCommentById(request: FastifyRequest, reply: FastifyReply) {
   const paramsSchema = z.object({
@@ -12,10 +11,9 @@ export async function getCommentById(request: FastifyRequest, reply: FastifyRepl
   const { commentId } = paramsSchema.parse(request.params)
 
   try {
-    const commentsRepository = new PrismaCommentsRepository()
-    const getCommentByIdUseCase = new GetCommentByIdUseCase(commentsRepository)
+    const commentsRepository = makeGetCommentByIdUseCase()
 
-    const comment = await getCommentByIdUseCase.execute({ commentId })
+    const comment = await commentsRepository.execute({ commentId })
 
     return reply.status(200).send(comment)
   } catch (err) {

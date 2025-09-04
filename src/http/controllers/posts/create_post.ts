@@ -1,9 +1,7 @@
 import { z } from "zod";
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { PrismaPostsRepository } from "@/repositories/prisma/prisma_posts_repositories.js"; 
-import { PrismaUsersRepository } from "@/repositories/prisma/prisma_users_repositories.js";
-import { CreatePostUseCase } from "@/use-cases/posts/create_post_use_case.js";
 import { UserNotFoundError } from "@/use-cases/erros/UserNotFoundErro.js";
+import { makeCreatePostUseCase } from "@/use-cases/factiories posts/make-create-use-case.js";
 
 export async function createPost(request: FastifyRequest, reply: FastifyReply) {
     const createPostBodySchema = z.object({
@@ -14,9 +12,7 @@ export async function createPost(request: FastifyRequest, reply: FastifyReply) {
     const { titulo, conteudo } = createPostBodySchema.parse(request.body);
 
     try {
-        const postsRepository = new PrismaPostsRepository();
-        const usersRepository = new PrismaUsersRepository();
-        const createPostUseCase = new CreatePostUseCase(postsRepository, usersRepository);
+        const createPostUseCase = makeCreatePostUseCase();
 
         await createPostUseCase.execute({ 
             titulo, 

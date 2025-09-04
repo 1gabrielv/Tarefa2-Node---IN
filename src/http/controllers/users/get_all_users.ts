@@ -1,12 +1,10 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { PrismaUsersRepository } from "@/repositories/prisma/prisma_users_repositories.js";
-import { GetAllUsersUseCase } from "@/use-cases/users/get_all_user_use_case.js";
+import { makeGetAllUsersUseCase } from "@/use-cases/factiories users/make-get-all-users-use-case.js";
 
 export async function getAllUsers(request: FastifyRequest, reply: FastifyReply) {
     try {
         
-        const usersRepository = new PrismaUsersRepository();
-        const getAllUsersUseCase = new GetAllUsersUseCase(usersRepository);
+        const getAllUsersUseCase = makeGetAllUsersUseCase();
 
         const users = await getAllUsersUseCase.execute();
 

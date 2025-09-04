@@ -1,8 +1,6 @@
 import { z } from 'zod'
 import type { FastifyRequest, FastifyReply } from 'fastify'
-import { PrismaCommentsRepository } from '@/repositories/prisma/prisma_comments_repositories.js';
-import { PrismaPostsRepository } from '@/repositories/prisma/prisma_posts_repositories.js';
-import { CreateCommentUseCase } from '@/use-cases/comments/create_comments_use_case.js';
+import { makeCreateCommentUseCase } from '@/use-cases/factiories comments/make-create-use-case.js';
 import { ResourceNotFound_Error } from '@/use-cases/erros/resource_not_found_error.js';
 
 export async function createComment(request: FastifyRequest, reply: FastifyReply) {
@@ -18,14 +16,9 @@ export async function createComment(request: FastifyRequest, reply: FastifyReply
   const requestingUserId = request.user.sub
 
   try {
-    const commentsRepository = new PrismaCommentsRepository()
-    const postsRepository = new PrismaPostsRepository()
-    const createCommentUseCase = new CreateCommentUseCase(
-      commentsRepository,
-      postsRepository,
-    )
+  const createCommentUseCase = makeCreateCommentUseCase()
 
-    const comment = await createCommentUseCase.execute({
+  const comment = await createCommentUseCase.execute({
       conteudo,
       postId,
       requestingUserId,

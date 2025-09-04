@@ -1,9 +1,7 @@
 import { z } from 'zod'
 import type { FastifyRequest, FastifyReply } from 'fastify'
-import { PrismaCommentsRepository } from '@/repositories/prisma/prisma_comments_repositories.js';
-import { PrismaUsersRepository } from '@/repositories/prisma/prisma_users_repositories.js';
-import { GetCommentsByUserUseCase } from '@/use-cases/comments/get_comments_by_user_use_case.js';
 import { ResourceNotFound_Error } from '@/use-cases/erros/resource_not_found_error.js';
+import { makeGetCommentByUserUseCase } from '@/use-cases/factiories comments/make-get-comments-by-user-use-case.js';
 
 export async function getCommentsByUser(request: FastifyRequest, reply: FastifyReply) {
   const paramsSchema = z.object({
@@ -12,12 +10,7 @@ export async function getCommentsByUser(request: FastifyRequest, reply: FastifyR
   const { userId } = paramsSchema.parse(request.params)
 
   try {
-    const commentsRepository = new PrismaCommentsRepository()
-    const usersRepository = new PrismaUsersRepository()
-    const getCommentsByUserUseCase = new GetCommentsByUserUseCase(
-      commentsRepository,
-      usersRepository,
-    )
+    const getCommentsByUserUseCase = makeGetCommentByUserUseCase()
 
     const comments = await getCommentsByUserUseCase.execute({ userId })
 

@@ -1,9 +1,8 @@
 import { z } from 'zod'
 import type { FastifyRequest, FastifyReply } from 'fastify'
-import { PrismaLikesRepository } from '../../../repositories/prisma/prisma_likes_repositories.js';
-import { DeleteLikeUseCase } from '@/use-cases/likes/delete_like_use_case.js';
 import { ResourceNotFound_Error } from '@/use-cases/erros/resource_not_found_error.js';
 import { NotAllowedError } from '@/use-cases/erros/not_allowed_error.js';
+import { makeDeleteLikeUseCase } from '@/use-cases/factiories likes/make-delete-use-case.js';
 
 export async function deleteLike(request: FastifyRequest, reply: FastifyReply) {
   const paramsSchema = z.object({
@@ -14,8 +13,7 @@ export async function deleteLike(request: FastifyRequest, reply: FastifyReply) {
   const requestingUserId = request.user.sub
 
   try {
-    const likesRepository = new PrismaLikesRepository()
-    const deleteLikeUseCase = new DeleteLikeUseCase(likesRepository)
+    const deleteLikeUseCase = makeDeleteLikeUseCase();
 
     await deleteLikeUseCase.execute({ likeId, requestingUserId })
 

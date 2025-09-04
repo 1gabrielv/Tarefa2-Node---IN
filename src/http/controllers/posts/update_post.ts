@@ -1,9 +1,8 @@
 import { z } from "zod";
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { PrismaPostsRepository } from '@/repositories/prisma/prisma_posts_repositories.js';
-import { UpdatePostUseCase } from '@/use-cases/posts/update_post_use_case.js';
 import { PostNotFoundError } from '@/use-cases/erros/post_not_found_error.js';
 import { NotAllowedError } from '@/use-cases/erros/not_allowed_error.js';
+import { makeUpdatePostUseCase } from "@/use-cases/factiories posts/make-update-use-case.js";
 
 export async function updatePost(request: FastifyRequest, reply: FastifyReply) {
     const paramsSchema = z.object({ id: z.string().uuid() });
@@ -20,8 +19,7 @@ export async function updatePost(request: FastifyRequest, reply: FastifyReply) {
     }
 
     try {
-        const postsRepository = new PrismaPostsRepository();
-        const updatePostUseCase = new UpdatePostUseCase(postsRepository);
+        const updatePostUseCase = makeUpdatePostUseCase();
 
         const updatedPost = await updatePostUseCase.execute({
             postId: id,

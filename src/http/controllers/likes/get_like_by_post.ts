@@ -1,9 +1,7 @@
 import { z } from 'zod'
 import type { FastifyRequest, FastifyReply } from 'fastify'
-import { PrismaLikesRepository } from '@/repositories/prisma/prisma_likes_repositories.js';
-import { PrismaPostsRepository } from '@/repositories/prisma/prisma_posts_repositories.js';
-import { GetLikesByPostUseCase } from '@/use-cases/likes/get_likes_by_post_use_case.js';
 import { ResourceNotFound_Error } from '@/use-cases/erros/resource_not_found_error.js';
+import { makeGetLikeByPostUseCase } from '@/use-cases/factiories likes/make-get-like-by-post-use-case.js';
 
 export async function getLikesByPost(request: FastifyRequest, reply: FastifyReply) {
   const paramsSchema = z.object({
@@ -12,12 +10,7 @@ export async function getLikesByPost(request: FastifyRequest, reply: FastifyRepl
   const { postId } = paramsSchema.parse(request.params)
 
   try {
-    const likesRepository = new PrismaLikesRepository()
-    const postsRepository = new PrismaPostsRepository()
-    const getLikesByPostUseCase = new GetLikesByPostUseCase(
-      likesRepository,
-      postsRepository,
-    )
+    const getLikesByPostUseCase = makeGetLikeByPostUseCase()
 
     const likes = await getLikesByPostUseCase.execute({ postId })
 
