@@ -14,4 +14,6 @@ export interface UsersRepository {
     findAll(): Promise<Usuario[]>; 
     delete(id: string): Promise<Usuario | null>;
     update(id: string, data: UserUpdateInput): Promise<Usuario | null>;
+
+    searchMany(query: string, page: number): Promise<Usuario[]>;
 }

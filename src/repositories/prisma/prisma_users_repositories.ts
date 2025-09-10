@@ -3,6 +3,12 @@ import { Prisma, type Usuario } from '../../../generated/prisma/index.js';
 import type { UsersRepository, UserUpdateInput } from '../users_repositories.js';
 
 export class PrismaUsersRepository implements UsersRepository {
+    public items: Usuario[] = [];
+
+    async searchMany(query: string, page: number){
+       return this.items.filter((item => item.nome.includes(query)))
+       .slice((page - 1) * 20, page * 20);
+    }
     
     async findAll() {
         const users = await prisma.usuario.findMany({
