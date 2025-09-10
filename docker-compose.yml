@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # Serviço do banco de dados PostgreSQL
+  db:
+    image: postgres
+    container_name: database_project
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=meuprojeto
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # Serviço da sua API/Aplicação
+  api:
+    build: .
+    container_name: api_project
+    ports:
+      - "3333:3333"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+
+volumes:
+  pgdata:

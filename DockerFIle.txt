@@ -1,0 +1,33 @@
+# Estágio de build: usa uma imagem Node para instalar as dependências
+FROM node:18-alpine AS builder
+
+# Define o diretório de trabalho dentro do contêiner
+WORKDIR /app
+
+# Copia os arquivos de dependência
+COPY package*.json ./
+
+# Instala as dependências de produção
+RUN npm install --only=production
+
+# Copia o schema do Prisma para o mesmo lugar
+COPY prisma ./prisma/
+
+# Estágio final: usa uma imagem Node menor para rodar a aplicação
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copia as dependências já instaladas do estágio anterior
+COPY --from=builder /app/node_modules ./node_modules
+# Copia o restante do código do seu projeto
+COPY . .
+
+# Gera o cliente do Prisma com base no schema
+RUN npx prisma generate
+
+# Expõe a porta que sua API usa (o padrão comum é 3333)
+EXPOSE 3333
+
+# Comando para iniciar sua aplicação quando o contêiner rodar
+CMD ["npm", "run", "start:dev"]
